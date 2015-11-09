@@ -1,0 +1,127 @@
+/**
+ * Created by xiejingpeng on 15/10/27.
+ */
+var base= {
+    transf : function (page,action){
+        $.mobile.changePage(page,{ transition: action });
+    },
+    ajax : function(callback){
+        $.ajax({
+            url : "/city",
+            data :{city:$('[name=city]').val()},
+            type : 'get',
+            dataType: "json",
+            success : function(data){
+                var newdata = data['HeWeather data service 3.0'][0];
+                callback(newdata)
+            }
+        })
+    }
+}
+
+$(document).on('click','#city',function() {
+    base.transf('#pagetwo','flow');
+    $('#input').hide();
+    base.ajax(function (data) {
+        var basic = data.basic;
+        var daily_forecast = data.daily_forecast;
+        var now = data.now;
+        var aqi = data.aqi;//空气质量
+        $('#city_name').text(basic.city);//城市名称
+        $('#cond').text(now.cond.txt+now.tmp+'℃');//晴+温度
+
+        $('#fl').text(now.fl);//体感温度
+        $('#hum').text(now.hum);//相对湿度
+        $('#pcpn').text(now.pcpn);//降水量
+        $('#pres').text(now.pres);//气压
+        $('#update').text((basic.update.loc).substring(10,16));//更新时间
+        //$('#qlty').text(aqi.city.qlty);//空气质量类别
+        $('#vis').text(now.vis);//能见度
+        $('#dir').text(now.wind.dir);//风向
+        $('#sc').text(now.wind.sc);//风力
+        $('#spd').text(now.wind.spd);//风速
+        chart_daily_forecast(daily_forecast);//未来7天数据图
+        chart_aqi(aqi);//空气质量
+    });
+})
+var chart_aqi = function(aqi){
+    if(!aqi)return;
+    var hash={
+        co:'一氧化碳',
+        no2:'二氧化氮',
+        o3:'臭氧',
+        pm10:'PM10',
+        pm25:'PM2.5',
+        so2:'二氧化硫',
+    }
+    var name=[],val=[],j= 0,city=aqi.city;
+    for(var i in city){
+        if((i!=='aqi')&&(i!=='qlty')){
+            name[j]=(hash[i]+'('+city[i]+')') || '0';//ug/m³
+            val[j] = city[i] || '0';
+            j++;
+        }
+    }
+    var radarChartData = {
+        labels : name,
+        datasets : [
+            {
+                fillColor : "rgba(151,187,205,0.5)",
+                strokeColor : "rgba(151,187,205,1)",
+                pointColor : "rgba(151,187,205,1)",
+                pointStrokeColor : "#fff",
+                data : val
+            }
+        ]
+    }
+    window.myRadar = new Chart(document.getElementById("myChart1").getContext("2d")).Radar(radarChartData, {
+        responsive: true
+    });
+}
+var chart_daily_forecast = function(daily_forecast){
+    var date=[],max=[],min=[];
+    for(var i=0;i<daily_forecast.length;i++){
+        date[i] = (daily_forecast[i].date).substring(5,10);//日期
+        max[i] = daily_forecast[i].tmp.max;
+        min[i] = daily_forecast[i].tmp.min;
+    }
+    var lineChartData = {
+        labels : date,
+        datasets : [
+            {
+                label: "max",
+                fillColor : "rgba(220,220,220,0.2)",
+                strokeColor : "rgba(220,220,220,1)",
+                pointColor : "rgba(220,220,220,1)",
+                pointStrokeColor : "#fff",
+                pointHighlightFill : "#fff",
+                pointHighlightStroke : "rgba(220,220,220,1)",
+                data : max,
+            },{
+                label: "min",
+                fillColor : "rgba(151,187,205,0.5)",
+                strokeColor : "rgba(151,187,205,1)",
+                pointColor : "rgba(151,187,205,1)",
+                pointStrokeColor : "#fff",
+                pointHighlightFill : "#fff",
+                pointHighlightStroke : "rgba(220,220,220,1)",
+                data : min,
+            }
+        ]
+
+    }
+
+    var ctx = document.getElementById("myChart").getContext("2d");
+    window.myLine = new Chart(ctx).Line(lineChartData, {
+        scaleShowGridLines : false,//去网格
+        scaleLabel : "<%=value%>℃",//y轴刻度值
+        multiTooltipTemplate: "<%if (label){%><%=label%>气温: <%}%><%= value %>℃",
+        responsive: true
+    })
+}
+
+
+
+
+
+

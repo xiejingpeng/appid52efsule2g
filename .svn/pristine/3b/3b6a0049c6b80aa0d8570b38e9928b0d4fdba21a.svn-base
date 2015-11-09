@@ -1,0 +1,16 @@
+var base= {
+    transf : function (page,action){
+        $.mobile.changePage(page,{ transition: action });
+    },
+    ajax : function(url,data,callback){
+        $.ajax({
+            url : url,
+            data :data,
+            type : 'get',
+            dataType: "json",
+            success : function(data){
+                callback(data);
+            }
+        })
+    }
+}

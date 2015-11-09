@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>乐易生活</title>
+  <link rel="stylesheet" href="plus/jquery.mobile-1.4.5.min.css">
+  <link rel="stylesheet" href="plus/bootstrap.min.css">
+  <link rel="stylesheet" href="stylesheets/style.css">
+</head>
+<body>
+
+<div data-role="page" id="pageone">
+  <div data-role="content" class="padding0">
+    <div class="container text-center padding0">
+      <!-- 定位-->
+      <div class="local">
+        <a href="map">
+          <img src="images/local.png" style="width: 40px;height :40px">
+        </a>
+        <span id="ip"></span>
+      </div>
+      <!-- 输入-->
+      <div class="row padding-top10" id="input">
+        <div class="col-xs-12 padding-le-ri20">
+          <div class="margin-auto">
+            <img src="images/logo.png" style="height: 200px;width: 200px">
+          </div>
+          <form class="form-inline padding-top5">
+            <div class="form-group">
+              <label for="city_name_input">
+                <h1>天气查询</h1>
+              </label>
+              <input  name="city" type="text" class="form-control" id="city_name_input" placeholder="请输入查询城市名称">
+            </div>
+            <button type="button" id="city" class="btn btn-default">提交</button>
+          </form>
+        </div>
+      </div>
+      <!--城市名称-->
+      <div class="row padding-le-ri10">
+        <div class="col-xs-12">
+          <h1 id="city_name"></h1>
+          <h4 id="cond"></h4>
+        </div>
+      </div>
+      <!--7天天气预报 -->
+      <div class="row padding-top10 padding-le-ri2">
+        <div class="col-sm-12">
+          <div style="height: 300px;width: 100%">
+            <canvas id="myChart" width="400" height="300"></canvas>
+          </div>
+        </div>
+      </div>
+      <!-- 表格-->
+      <div class="row padding-top2">
+        <div class="col-xs-12">
+          <!--<h4>当日天气分析</h4>-->
+          <table class="table table-striped">
+            <tbody>
+            <tr>
+              <td>
+                <p class="font-color1">更新时间</p>
+                <p class="font-size20" id="update">-</p>
+              </td>
+              <td>
+                <p class="font-color1">体感温度（℃）</p>
+                <p class="font-size20" id="fl">-</p>
+              </td>
+              <td>
+                <p class="font-color1">相对湿度（%）</p>
+                <p class="font-size20" id="hum">-</p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p class="font-color1">降水量（mm）</p>
+                <p class="font-size20" id="pcpn">-</p>
+              </td>
+              <td>
+                <p class="font-color1">气压（mb）</p>
+                <p class="font-size20" id="pres">-</p>
+              </td>
+              <td>
+                <p class="font-color1">能见度（km）</p>
+                <p class="font-size20" id="vis">-</p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p class="font-color1">风向</p>
+                <p class="font-size20" id="dir">-</p>
+              </td>
+              <td>
+                <p class="font-color1">风力</p>
+                <p class="font-size20" id="sc">-</p>
+              </td>
+              <td>
+                <p class="font-color1">风速（kmph）</p>
+                <p class="font-size20" id="spd">-</p>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- 空气质量分析-->
+      <div class="row padding-le-ri2">
+        <div class="col-xs-12">
+          <div style="height: 500px;width: 100%">
+            <canvas id="myChart1" width="400" height="300"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+<script src="plus/jquery-2.1.1.js"></script>
+<script src="plus/jquery.mobile-1.4.5.min.js"></script>
+<script src="plus/bootstrap.min.js"></script>
+<script src="plus/Chart.min.js"></script>
+<script src="javascripts/base.js"></script>
+<script src="javascripts/index.js"></script>
+</html>
