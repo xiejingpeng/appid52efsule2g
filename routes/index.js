@@ -53,5 +53,21 @@ router.get('/ip',function(req,res,next){
   });
 });
 
+//新闻
+router.get('/news',function(req,res,next){
+  urllib.request('http://apis.baidu.com/showapi_open_bus/channel_news/search_news?channelId=5572a109b3cdc86cf39001db&channelName=%E5%9B%BD%E5%86%85%E6%9C%80%E6%96%B0&title=%E4%B8%8A%E5%B8%82&page=1', {
+    method: 'get',
+    headers: {
+      'apikey': apikey,//百度接口
+    }
+  }, function (err, data) {
+    if (err) {
+      throw err; // you need to handle error
+    }
+    var results = data.toString();
+    console.log(results);
+    res.send(results);//给客户端返回一个json格式的数据
+  });
+});
 
 module.exports = router;

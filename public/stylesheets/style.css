@@ -1,3 +1,12 @@
+body{
+  margin: 0 auto;
+  padding: 0;
+  max-width: 600px;
+  /*background-color: #daae1b;*/
+}
+.container{
+  max-width: 600px;
+}
 .padding0{
   padding: 0;
 }
